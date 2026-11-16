@@ -133,3 +133,4 @@ h2 { font-size: 19px; margin: 28px 0 12px; }
   .brand-sub { display: none; }
   .card { padding: 14px; }
 }
+.score > div:last-child { flex: 1; min-width: 200px; }

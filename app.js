@@ -25,6 +25,14 @@
   };
   document.getElementById("homeBtn").onclick = () => { location.hash = ""; };
 
+  // Explanations refer to options by their original letters; translate to the displayed (shuffled) letters.
+  const remap = (text, order) => {
+    const L = (ch) => LETTERS[order.indexOf(LETTERS.indexOf(ch))] || ch;
+    return text
+      .replace(/\b(Options? )([a-d])\b/g, (_, w, c) => w + L(c))
+      .replace(/\(([a-d])\)/g, (_, c) => "(" + L(c) + ")")
+      .replace(/\b([a-d]) = /g, (_, c) => L(c) + " = ");
+  };
   const shuffle = (arr) => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
   // ── session ──
@@ -150,7 +158,7 @@
       </div>
       ${reveal ? `<div class="explain">
         ${picked === undefined ? `<p><span class="pill bad">Not answered</span></p>` : ""}
-        <p><strong>Why:</strong> ${esc(q.e)}</p>
+        <p><strong>Why:</strong> ${esc(remap(q.e, it.order))}</p>
         <span class="kw"><b>Keyword</b>${esc(q.k)}</span>
         <div class="topic-tag" style="margin-top:8px">Topic: ${esc(TOPICS[q.t].name)}</div>
       </div>` : ""}
